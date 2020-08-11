@@ -1,5 +1,5 @@
 <template>
-  <div class="total-value">Balance: {{ total }}</div>
+  <div class="total-value" :style="{color: color}">Balance: {{ total }}</div>
 </template>
 
 <script>
@@ -9,6 +9,16 @@ props: {
   total: {
   type: Number,
   default: 0
+    }
+  },
+  computed: {
+  color() {
+  if (this.total > 0) {
+  return 'green';
+  } else if (this.total < 0) {
+      return 'red'
+    }
+  return 'black';
     }
   }
 }
