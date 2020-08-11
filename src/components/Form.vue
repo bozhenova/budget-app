@@ -19,6 +19,18 @@
 </template>
 
 <script>
+const checkValue = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('Please input a value'));
+    }
+  };
+
+  const checkCommentLength = (rule, value, callback) => {
+  if (value.length > 25) {
+    return callback(new Error('Text must be less than or equal to 25 characters'));
+    }
+  };
+
 export default {
   name: 'Form',
   data: () => ({
@@ -29,11 +41,14 @@ export default {
     },
     rules: {
     comment: [
-      {required: true, message: 'Please write something', trigger: 'blur'}
+      {required: true, message: 'Please write something', trigger: 'blur'},
+      { validator: checkCommentLength, trigger: 'blur' }
+
     ],
     value: [
       {required: true, message: 'Please enter a value', trigger: 'blur'},
       {type: 'number', message: 'Value must be a number', trigger: 'blur'},
+      { validator: checkValue, trigger: 'blur' }
     ]
     }
   }),
@@ -45,14 +60,14 @@ export default {
           this.$refs.addItemForm.resetFields();
       }
       })
-    }
+    },
   }
 }
 </script>
 
 <style scoped>
 .form-card {
-  max-width: 500px;
+  width: 450px;
   margin: auto;
 }
 
