@@ -1,23 +1,27 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <BudgetList :list="list" />
+  </div>
 </template>
 
 <script>
+import BudgetList from '@/components/BudgetList';
+
 export default {
-  name: "App",
-  components: {},
+  name: 'App',
+  components: { BudgetList },
   data: () => ({
     list: {
       1: {
-        type: "INCOME",
+        type: 'INCOME',
         value: 100,
-        comment: "Some comment",
+        comment: 'Some comment',
         id: 1
       },
       2: {
-        type: "OUTCOME",
+        type: 'OUTCOME',
         value: -50,
-        comment: "Some outcome comment",
+        comment: 'Some outcome comment',
         id: 2
       }
     }
