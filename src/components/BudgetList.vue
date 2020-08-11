@@ -1,12 +1,18 @@
 <template>
   <div class="budget-list-wrap">
     <ElCard :header="header">
+    <ElButtonGroup>
+  <ElButton type="danger" data-sort="outcome" circle icon="el-icon-minus" @click="handleSorting"/>
+  <ElButton type="primary" data-sort="all" circle icon="el-icon-s-home" @click="handleSorting"/>
+  <ElButton type="success" data-sort="income" circle icon="el-icon-plus" @click="handleSorting"/>
+</ElButtonGroup>
       <template v-if="!isEmpty">
-        <div class="list-item" v-for="(item, prop) in list" :key="prop">
-          <span class="budget-comment">{{ item.comment }}</span>
-          <span class="budget-value">{{ item.value }}</span>
-          <ElButton type="danger" size="mini">Delete</ElButton>
-        </div>
+        <BudgetListItem
+          v-for="item in list"
+          :key="item.id"
+          :item="item"
+          @delete-item="handleDelete"
+        />
       </template>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
     </ElCard>
@@ -14,39 +20,44 @@
 </template>
 
 <script>
+import BudgetListItem from './BudgetListItem';
+
 export default {
   name: 'BudgetList',
+  components: { BudgetListItem },
   props: {
     list: {
-      type: Object,
-      default: () => ({})
+      type: Array,
+      default: () => []
+    },
+    handleDelete: {
+      type: Function,
+      default: () => {}
     }
   },
   data: () => ({
     header: 'Budget List',
-    emptyTitle: 'Empty List'
+    emptyTitle: 'Empty List',
   }),
   computed: {
     isEmpty() {
-      return !Object.keys(this.list).length;
+      return !this.list.length;
     }
+  },
+  methods: {
+  handleSorting(e) {
+  const sortType = e.currentTarget.dataset.sort;
+    this.$emit('sort-items', sortType);
+  }
   }
 };
 </script>
 
 <style scoped>
 .budget-list-wrap {
-  max-width: 500px;
-  margin: auto;
-}
-.list-item {
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-}
-.budget-value {
-  font-weight: bold;
+  width: 450px;
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: auto;
+  margin-bottom: 40px;
 }
 </style>

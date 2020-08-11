@@ -4,7 +4,7 @@
     <TotalBalance :total="totalBalance" />
     <div class="wrapper">
     <Form @submit-form="onFormSubmit" />
-    <BudgetList :list="list" :handleDelete="handleDelete" />
+    <BudgetList :list="filteredList" :handleDelete="handleDelete" @sort-items="changeSortType"/>
     </div>
     <ElDialog
       title="Do you want to delete this item?"
@@ -29,29 +29,40 @@ export default {
   name: 'App',
   components: { BudgetList, TotalBalance, Form },
   data: () => ({
-    list: {
-      1: {
+    list: [
+      {
         type: 'INCOME',
         value: 100,
         comment: 'Some comment',
         id: 1
       },
-      2: {
+      {
         type: 'OUTCOME',
         value: 50,
         comment: 'Some outcome comment',
         id: 2
-      }
-    },
+      },
+    ],
     dialogVisible: false,
-    currentId: 1
+    currentId: 0,
+    sortType: 'all'
   }),
   computed: {
     totalBalance() {
       return Object.values(this.list).reduce((acc, item) => {
         return item.type === 'INCOME' ? acc + item.value : acc - item.value;
       }, 0);
+    },
+    filteredList() {
+    switch (this.sortType) {
+      case 'income':
+        return this.list.filter(item => item.type === 'INCOME');
+      case'outcome':
+        return this.list.filter(item => item.type === 'OUTCOME');
+      default:
+        return this.list;
     }
+  }
   },
   methods: {
     handleDelete(id) {
@@ -59,14 +70,11 @@ export default {
       this.dialogVisible = true;
     },
     deleteItem() {
-      this.$delete(this.list, this.currentId);
+    const index = this.list.findIndex(item => item.id === this.currentId)
+      this.$delete(this.list, index);
     },
     onFormSubmit(data) {
-      const newObj = {
-        ...data,
-        id: String(Math.random())
-      };
-      this.$set(this.list, newObj.id, newObj);
+     this.list.push(data)
     },
     handleClose() {
       this.dialogVisible = false;
@@ -74,6 +82,9 @@ export default {
     handleConfirm() {
       this.dialogVisible = false;
       this.deleteItem();
+    },
+    changeSortType(sortType) {
+    this.sortType = sortType;
     }
   }
 };
