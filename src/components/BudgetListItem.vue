@@ -47,5 +47,4 @@ export default {
   align-items: center;
   padding: 10px 15px;
 }
-
   </style>

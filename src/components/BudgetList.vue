@@ -5,7 +5,7 @@
   <ElButton type="danger" data-sort="outcome" circle icon="el-icon-minus" @click="handleSorting"/>
   <ElButton type="primary" data-sort="all" circle icon="el-icon-s-home" @click="handleSorting"/>
   <ElButton type="success" data-sort="income" circle icon="el-icon-plus" @click="handleSorting"/>
-</ElButtonGroup>
+  </ElButtonGroup>
       <template v-if="!isEmpty">
         <BudgetListItem
           v-for="item in list"
@@ -14,7 +14,7 @@
           @delete-item="handleDelete"
         />
       </template>
-      <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
+      <ElAlert :style="{marginTop: '12px'}" v-else type="info" :title="emptyTitle" :closable="false" />
     </ElCard>
   </div>
 </template>

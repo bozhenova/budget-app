@@ -10,7 +10,7 @@
       title="Do you want to delete this item?"
       :visible="dialogVisible"
       width="30%"
-      :before-close="handleClose"
+      :before-close="closeDialog"
     >
       <span>
         <ElButton @click="dialogVisible = false">Cancel</ElButton>
@@ -33,13 +33,13 @@ export default {
       {
         type: 'INCOME',
         value: 100,
-        comment: 'Some comment',
+        comment: 'Sold a picture',
         id: 1
       },
       {
         type: 'OUTCOME',
         value: 50,
-        comment: 'Some outcome comment',
+        comment: 'Shopping',
         id: 2
       },
     ],
@@ -49,7 +49,7 @@ export default {
   }),
   computed: {
     totalBalance() {
-      return Object.values(this.list).reduce((acc, item) => {
+      return this.list.reduce((acc, item) => {
         return item.type === 'INCOME' ? acc + item.value : acc - item.value;
       }, 0);
     },
@@ -74,13 +74,14 @@ export default {
       this.$delete(this.list, index);
     },
     onFormSubmit(data) {
-     this.list.push(data)
+    data.id = Math.random();
+    this.list.push(data);
     },
-    handleClose() {
+    closeDialog() {
       this.dialogVisible = false;
     },
     handleConfirm() {
-      this.dialogVisible = false;
+      this.closeDialog();
       this.deleteItem();
     },
     changeSortType(sortType) {

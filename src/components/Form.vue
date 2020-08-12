@@ -1,8 +1,8 @@
 <template>
   <ElCard class="form-card">
-    <ElForm :model="formData" ref="addItemForm" :rules="rules">
+    <ElForm :model="formData" status-icon ref="addItemForm" :rules="rules">
     <ElFormItem label="Type" prop="type">
-      <ElSelect class="type-select" v-model="formData.type" placeholder="Choose type...">
+      <ElSelect class="type-select" v-model="formData.type" placeholder="Choose a type...">
         <ElOption label="Income" value="INCOME"/>
         <ElOption label="Outcome" value="OUTCOME"/>
       </ElSelect>
@@ -21,14 +21,16 @@
 <script>
 const checkValue = (rule, value, callback) => {
   if (!value) {
-    return callback(new Error('Please input a value'));
+    return callback(new Error('Please enter a value'));
     }
+    callback();
   };
 
   const checkCommentLength = (rule, value, callback) => {
   if (value.length > 25) {
     return callback(new Error('Text must be less than or equal to 25 characters'));
     }
+    callback();
   };
 
 export default {
@@ -37,13 +39,12 @@ export default {
     formData: {
       type: 'INCOME',
       comment: '',
-      value: 0
+      value: 0,
     },
     rules: {
     comment: [
       {required: true, message: 'Please write something', trigger: 'blur'},
       { validator: checkCommentLength, trigger: 'blur' }
-
     ],
     value: [
       {required: true, message: 'Please enter a value', trigger: 'blur'},
