@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 const checkValue = (rule, value, callback) => {
   if (!value) {
     return callback(new Error('Please enter a value'));
@@ -54,10 +56,11 @@ export default {
     }
   }),
   methods: {
+  ...mapActions('data', ['addNewItem']),
     onSubmit() {
       this.$refs.addItemForm.validate(valid => {
         if (valid) {
-          this.$emit('submit-form', {...this.formData});
+        this.addNewItem({...this.formData})
           this.$refs.addItemForm.resetFields();
       }
       })

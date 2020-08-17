@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'BudgetListItem',
   props: {
@@ -18,8 +20,10 @@ export default {
     }
   },
     methods: {
+    ...mapActions('data', ['setCurrentId', 'toggleDialog']),
     handleDelete(id) {
-      this.$emit('delete-item', id);
+      this.setCurrentId(id)
+      this.toggleDialog(true);
     }
   },
   computed: {

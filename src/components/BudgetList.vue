@@ -11,7 +11,6 @@
           v-for="item in list"
           :key="item.id"
           :item="item"
-          @delete-item="handleDelete"
         />
       </template>
       <ElAlert :style="{marginTop: '12px'}" v-else type="info" :title="emptyTitle" :closable="false" />
@@ -21,6 +20,7 @@
 
 <script>
 import BudgetListItem from './BudgetListItem';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'BudgetList',
@@ -30,10 +30,6 @@ export default {
       type: Array,
       default: () => []
     },
-    handleDelete: {
-      type: Function,
-      default: () => {}
-    }
   },
   data: () => ({
     header: 'Budget List',
@@ -45,10 +41,11 @@ export default {
     }
   },
   methods: {
-  handleSorting(e) {
-  const sortType = e.currentTarget.dataset.sort;
-    this.$emit('sort-items', sortType);
-  }
+    ...mapActions('data', ['changeSortType']),
+    handleSorting(e) {
+      const sortType = e.currentTarget.dataset.sort;
+      this.changeSortType(sortType);
+  },
   }
 };
 </script>
