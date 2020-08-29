@@ -1,6 +1,6 @@
 {
+  "homepage": "http://bozhenova.github.io/budget-app",
   "name": "budget-app",
-  "homepage": "https://bozhenova.github.io/budget-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -44,6 +44,5 @@
     "last 2 versions",
     "not dead"
   ],
-  "_id": "budget-app@0.1.0",
-  "readme": "ERROR: No README data found!"
+  "_id": "budget-app@0.1.0"
 }
